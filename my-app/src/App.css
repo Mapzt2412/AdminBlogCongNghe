@@ -40,11 +40,6 @@
 .main-layout {
   display: flex;
 }
-.main-layout .left-menu {
-  background-color: #282c34;
-  width: 15%;
-  height: 100vh;
-}
 
 .main-layout .main-layout-content {
   width: 85%;
@@ -56,6 +51,11 @@
 .main-layout .content {
   background-color: beige;
 }
-
-
-
+.ant-menu-title-content{
+  overflow: unset !important;
+}
+.content-header ul{
+  width: 100% !important;
+  align-items: center;
+  justify-items: center;
+}

@@ -1,17 +1,16 @@
-import Content from "../Home/Content.js";
 
 const MainLayout = ({leftMenu, contentHeader, content}) => {
     return <>
         <div className="main-layout">
             <div className="left-menu">
-                <p>hello</p>
+                { leftMenu }
             </div>
             <div className="main-layout-content">
                 <div className="content-header">
-                    <p>Hello</p>
+                    { contentHeader }
                 </div>
                 <div className="content">
-                    <Content />
+                    { content }
                 </div>
             </div>
         </div>
