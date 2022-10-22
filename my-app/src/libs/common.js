@@ -1,5 +1,6 @@
 export const saveToken = (token) => {
     if (typeof window !== 'undefined') {
+        console.log("ngu")
     localStorage.setItem('token', token)
     window.location.reload();
     }

@@ -2,6 +2,9 @@ import { memo } from 'react';
 import AvatarDefault from '../../assets/icon/AvatarDefault';
 
 const Drawer = () => {
+    const handleLogout = () => {
+        
+    }
     return(
         <>
             <div className='drawer-content-header'>
@@ -37,7 +40,7 @@ const Drawer = () => {
                 </div>
             </div>
             <div className='drawer-content-footer'>
-                <div  className='drawer-content-footer-logout'>
+                <div  className='drawer-content-footer-logout' onClick={handleLogout}>
                     Đăng xuất
                 </div>
             </div>

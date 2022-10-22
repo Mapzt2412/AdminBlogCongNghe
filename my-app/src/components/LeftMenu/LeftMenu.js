@@ -24,8 +24,9 @@ const items = [
     getItem("Xem danh sách cấm", "5"),
     getItem("Xem danh sách báo cáo", "6"),
   ]),
-  getItem("Xem danh sách phản hồi", "sub3"),
-  getItem("Tạo báo cáo", "sub4"),
+  getItem("Tạo chủ đề mới", "sub3"),
+  getItem("Xem danh sách phản hồi", "sub4"),
+  getItem("Tạo báo cáo", "sub5"),
 ]; // submenu keys of first level
 
 const rootSubmenuKeys = ["sub1", "sub2", "sub4"];
@@ -36,7 +37,7 @@ const LeftMenu = ({ mode, setTab, setKey }) => {
   const [data, setData] = useState(getToken());
 
   const handleLogin = () => {
-    PropertiesService.login(data).then(() => saveToken(data.data.token))
+    PropertiesService.login(data).then((data) => saveToken(data.data.token))
   }
   const onOpenChange = (keys) => {
     const latestOpenKey = keys.find((key) => openKeys.indexOf(key) === -1);
@@ -84,7 +85,7 @@ const LeftMenu = ({ mode, setTab, setKey }) => {
       (
         <>
           <div className="login-title">Đăng nhập</div>
-          <Input placeholder="Nhập tên đăng nhập" name="email" onChange={onChangeInput}/>
+          <Input placeholder="Nhập tên đăng nhập" name="username" onChange={onChangeInput}/>
           <Input.Password placeholder="Nhập mật khẩu" name={"password"} type="password" onChange={onChangeInput}/>
           <br/>
           <Button onClick={handleLogin}>
