@@ -1,9 +1,10 @@
 import { memo } from 'react';
 import AvatarDefault from '../../assets/icon/AvatarDefault';
+import { deleteToken } from '../../libs/common';
 
 const Drawer = () => {
     const handleLogout = () => {
-        
+        deleteToken()
     }
     return(
         <>

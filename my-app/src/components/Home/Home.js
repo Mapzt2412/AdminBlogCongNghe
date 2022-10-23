@@ -23,16 +23,7 @@ const Home = () => {
           .then((data) => setData(data.data.data));
       } else if (key === "3") {
         propertiesService.getListReportArticle(getToken()).then((data) => {
-          for (let i = 0; i < data.data.data?.length; i++) {
-            setData([
-              ...data,
-              {
-                ...data.data.data.articleInfo,
-                type: data.data.data[i].type,
-                descriptionReport: data.data.data[i].description,
-              },
-            ]);
-          }
+          setData(data.data.data)
         });
       } else if (key === "4") {
         propertiesService

@@ -25,16 +25,22 @@ const Content = ({ data, page }) => {
   const handleClick = useCallback((type, data) => {
     if(type === "deleteTopic"){
       propertiesService.deleteTopic({ topicId: data}, getToken()).then((data) => setDataTable(pre => pre?.filter(value => value.id !== data)))
+    }else if(type === "handleReport"){
+      propertiesService.handleReportArticle({ reportId  : data}, getToken()).then((data) => console.log(data))
+    }else if(type === "banUser"){
+      propertiesService.banUser({userId: data , status:""}, getToken()).then((data) => alert("Cấm người dùng thành công"))
+    }else if(type === "hideArticle"){
+      propertiesService.hideArticle({articleId : data , status:""}, getToken()).then((data) => alert("Ẩn bài viết thành công"))
     }
   },[])
   useEffect(() => {
     setLoading(true);
     if (page === "1") {
-      setColumns(columnsArticle);
+      setColumns(columnsArticle(handleClick));
     } else if (page === "6" || page === "4" || page === "5") {
-      setColumns(columnsUser);
+      setColumns(columnsUser(handleClick));
     } else if (page === "3") {
-      setColumns(columnsArticleReport);
+      setColumns(columnsArticleReport(handleClick));
     } else if (page === "sub3") {
       setColumns(columnsTopics(handleClick));
     }

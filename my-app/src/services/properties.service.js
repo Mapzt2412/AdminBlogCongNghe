@@ -25,5 +25,15 @@ class PropertiesService {
     deleteTopic(data, token) {
         return http.delete("/admin/delete-topic" ,{ headers: {'Authorization': "Bearer " + token}, data : JSON.stringify(data)})
     }
+    handleReportArticle(data, token) {
+        return http.post("/admin/handle-reports-article", JSON.stringify(data) , {headers: {'Authorization': "Bearer " + token}})
+    }
+    banUser(data, token) {
+        return http.post("/admin/ban-user", JSON.stringify(data) , {headers: {'Authorization': "Bearer " + token}}) 
+    }
+    hideArticle(data,token) {
+        return http.post("/admin/hide-article", JSON.stringify(data) , {headers: {'Authorization': "Bearer " + token}}) 
+    }
+    
 }
 export default new PropertiesService();

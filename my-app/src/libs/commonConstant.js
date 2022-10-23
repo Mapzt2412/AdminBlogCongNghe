@@ -1,7 +1,7 @@
 import { Image } from 'antd';
 import { Space, Table, Tag, Tooltip } from 'antd';
 
-export const columnsArticle = [
+export const columnsArticle = (handleClick) => [
     {
       title: 'Tiêu đề',
       dataIndex: 'title',
@@ -77,45 +77,58 @@ export const columnsArticle = [
       title: 'Action',
       key: 'action',
       width: '10%',
+      render: (_, record) => (
+        <Space size="middle">
+          <div className='table-action' onClick={() => handleClick("hideArticle", record.id)}>Ẩn bài viết</div>
+        </Space>
+      ),
     },
   ];
-  export const columnsArticleReport = [
+  export const columnsArticleReport = (handleClick) => [
     {
       title: 'Tiêu đề',
-      dataIndex: 'title',
-      key: 'title',
+      dataIndex: 'articleInfo',
+      key: 'articleInfo',
       width: '10%',
+      render: data => (
+        <div>{data.title}</div>
+      ),
     },
     {
       title: 'Mô tả',
-      dataIndex: 'description',
-      key: 'description',
+      dataIndex: 'articleInfo',
+      key: 'articleInfo',
       ellipsis: {
         showTitle: false,
       },
       render: data => (
         <Tooltip placement="topLeft" title={data}>
-          {data}
+          {data.description}
         </Tooltip>
       ),
     },
     {
       title: 'Điểm',
-      dataIndex: 'score',
-      key: 'score',
+      dataIndex: 'articleInfo',
+      key: 'articleInfo',
       width: '10%',
+      render: data => (
+        <Tooltip placement="topLeft" title={data}>
+          {data.score}
+        </Tooltip>
+      ),
     },
     {
       title: 'Ảnh bìa',
-      dataIndex: 'thumbnail',
-      key: 'thumbnail',
+      dataIndex: 'articleInfo',
+      key: 'articleInfo',
       width: '10%',
       ellipsis: {
         showTitle: false,
       },
       render: data => (
         <Tooltip placement="topLeft" title={data}>
-          {data}
+          {data.thumbnail}
         </Tooltip>
       ),
     },
@@ -155,8 +168,8 @@ export const columnsArticle = [
       },
       {
         title: 'Mô tả báo cáo',
-        dataIndex: 'descriptionReport',
-        key: 'descriptionReport',
+        dataIndex: 'description',
+        key: 'description',
         width: '10%',
         ellipsis: {
           showTitle: false,
@@ -173,8 +186,7 @@ export const columnsArticle = [
       width: '10%',
       render: (_, record) => (
         <Space size="middle">
-          <a>Invite {record.name}</a>
-          <a>Delete</a>
+          <div className ="table-action" onClick={() => handleClick("handleReport", record.id)}>Xử lý</div>
         </Space>
       ),
     },
@@ -233,7 +245,7 @@ export const columnsArticle = [
     },
   ];
 
-  export const columnsUser = [
+  export const columnsUser = (handleClick) => [
     {
       title: 'Tên đăng nhập',
       dataIndex: 'username',
@@ -299,8 +311,7 @@ export const columnsArticle = [
       width: '10%',
       render: (_, record) => (
         <Space size="middle">
-          <a>Invite {record.name}</a>
-          <a>Delete</a>
+          <div className='table-action' onClick={() => handleClick("banUser", record.id)}>Cấm người dùng</div>
         </Space>
       ),
     },
