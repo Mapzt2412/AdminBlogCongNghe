@@ -1,5 +1,5 @@
 import { memo, useState } from "react";
-import { Button, Drawer } from "antd";
+import { Drawer } from "antd";
 import AvatarDefault from "../../assets/icon/AvatarDefault";
 import DrawerProfile from "../Drawer/DrawerProfile";
 const HeaderContent = ({ tab }) => {
@@ -21,11 +21,14 @@ const HeaderContent = ({ tab }) => {
         <div className={"header-content-item " + (tab === "sub2" && "active")}>
           Quản lý người dùng
         </div>
-        <div className={"header-content-item " + (tab === "sub3" && "active")}>
+        <div className={"header-content-item " + (tab === "sub4" && "active")}>
           Xem danh sách phản hồi
         </div>
-        <div className={"header-content-item " + (tab === "sub4" && "active")}>
+        <div className={"header-content-item " + (tab === "sub5" && "active")}>
           Tạo báo cáo
+        </div>
+        <div className={"header-content-item " + (tab === "sub6" && "active")}>
+          Quản lý duyệt bài
         </div>
         <div className={"header-content-user "}>
           <div className="user-avatar" onClick={showDrawer}>

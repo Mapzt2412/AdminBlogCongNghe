@@ -1,5 +1,5 @@
 import { Button, Input, Menu } from "antd";
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect, useMemo } from "react";
 import Logo from "./../../assets/icon/Logo";
 import { getToken, saveToken } from './../../libs/common';
 import PropertiesService from "../../services/properties.service"
@@ -27,13 +27,14 @@ const items = [
   getItem("Tạo chủ đề mới", "sub3"),
   getItem("Xem danh sách phản hồi", "sub4"),
   getItem("Tạo báo cáo", "sub5"),
+  getItem("Quản lý duyệt bài", "sub6"),
 ]; // submenu keys of first level
 
 const rootSubmenuKeys = ["sub1", "sub2", "sub4"];
 
 const LeftMenu = ({ mode, setTab, setKey }) => {
   const [openKeys, setOpenKeys] = useState(["sub1"]);
-  const [token, setToken] = useState(getToken());
+  const token = useMemo(() => getToken(), [])
   const [data, setData] = useState(getToken());
 
   const handleLogin = () => {
@@ -78,7 +79,7 @@ const LeftMenu = ({ mode, setTab, setKey }) => {
         onClick={onClick}
         theme={"dark"}
         style={{
-          width: 256,
+          width: 300,
         }}
         items={items}
       />:

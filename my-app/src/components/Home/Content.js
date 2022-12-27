@@ -11,6 +11,7 @@ import {
 import { Spin, Pagination  } from "antd";
 import propertiesService from "../../services/properties.service";
 import { getToken } from './../../libs/common';
+import ManageArticles from '../../views/ManageArticles/index';
 
 const Content = ({ data, page }) => {
   const [loading, setLoading] = useState(false);
@@ -53,6 +54,12 @@ const Content = ({ data, page }) => {
       setLoading(false);
     }
   }, [data]);
+
+  useEffect(() => {
+    if( page === 'sub6'){
+      setLoading(false);
+    }
+  },[page])
   const handleSubmit = (e) => {
     if(e.keyCode === 13) {
       propertiesService.createTopic({topicName: topic} , getToken()).then((data) => setDataTable(pre => [...pre, data.data.data]))
@@ -75,7 +82,9 @@ const Content = ({ data, page }) => {
         <Spin  size="large"/>
        </div>
       ) : (
-        <>
+        page === 'sub6' ? <>
+            <ManageArticles/>
+        </> : <>
         <Table columns={columns} dataSource={dataTable} columnWidth={100} pagination={false}/>
         <div className="pagination-table">
           <Pagination defaultCurrent={1} total={50} />
