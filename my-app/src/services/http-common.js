@@ -1,4 +1,5 @@
 import axios from "axios";
+import { handleError } from "../libs/common";
 
 const instance = axios.create({
     // baseURL: process.env.REACT_APP_API_URL,
@@ -24,5 +25,14 @@ export const approve = axios.create({
   },
 });
 
+approve.interceptors.response.use(
+  function (response) {
+    return response;
+  },
+  function (error) {
+    handleError(error.response.data.message);
+    return Promise.reject(error);
+  }
+);
 
 export default instance;

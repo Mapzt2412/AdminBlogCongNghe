@@ -23,7 +23,6 @@ const ModalRetrainRule = ({ isModalVisible, setIsModalVisible, classRetrain }) =
     const onCancel = () => {
         setIsModalVisible(false)
     };
-    console.log(isModalVisible)
     return (
         <Modal open={isModalVisible} onOk={onOk} onCancel={onCancel}> 
             <div>{classRetrain}</div>

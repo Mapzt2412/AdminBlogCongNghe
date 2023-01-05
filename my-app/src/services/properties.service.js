@@ -80,6 +80,5 @@ class PropertiesService {
   disabledClass(data){
     return approve.post("/badwords/change-class-status", JSON.stringify(data));
   }
-
 }
 export default new PropertiesService();

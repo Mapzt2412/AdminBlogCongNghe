@@ -2,3 +2,8 @@
     background-color: $color--background;
     width: 300px;
   }
+.link{
+    color: $color--active;
+    text-decoration: none;
+    cursor: pointer;
+}

@@ -1,5 +1,6 @@
 {
   "dependencies": {
-    "js-file-download": "^0.4.12"
+    "js-file-download": "^0.4.12",
+    "socket.io-client": "^4.5.4"
   }
 }
