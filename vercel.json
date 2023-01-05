@@ -1,0 +1,5 @@
+{
+    "rewrites": [
+      {"source": "/admin", "destination": "https://admin-blog-cong-nghe.vercel.app/"}
+    ]
+  }
