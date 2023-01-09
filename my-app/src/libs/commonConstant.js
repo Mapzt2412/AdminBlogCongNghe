@@ -1,318 +1,501 @@
-import { Image } from 'antd';
-import { Space, Table, Tag, Tooltip } from 'antd';
-
+import { Space, Tooltip } from "antd";
+import vi from "moment/locale/vi";
+import moment from "moment";
+export const formatDate = (date) => {
+  return moment.utc(date).locale("vi", vi).format('Do-M-YYYY')
+};
 export const columnsArticle = (handleClick) => [
-    {
-      title: 'Tiêu đề',
-      dataIndex: 'title',
-      key: 'title',
-      fixed: 'left',
-      ellipsis: {
-        showTitle: false,
-      },
-      render: data => (
-        <Tooltip placement="topLeft" title={data}>
-          {data}
-        </Tooltip>
-      ),
+  {
+    title: "Tiêu đề",
+    dataIndex: "title",
+    key: "title",
+    fixed: "left",
+    ellipsis: {
+      showTitle: false,
     },
-    {
-      title: 'Mô tả',
-      dataIndex: 'description',
-      key: 'description',
-      ellipsis: {
-        showTitle: false,
-      },
-      render: data => (
-        <Tooltip placement="topLeft" title={data}>
-          {data}
-        </Tooltip>
-      ),
+    render: (data) => (
+      <Tooltip placement="topLeft" title={data}>
+        {data}
+      </Tooltip>
+    ),
+  },
+  {
+    title: "Mô tả",
+    dataIndex: "description",
+    key: "description",
+    ellipsis: {
+      showTitle: false,
     },
-    {
-      title: 'Điểm',
-      dataIndex: 'score',
-      key: 'score',
+    render: (data) => (
+      <Tooltip placement="topLeft" title={data}>
+        {data}
+      </Tooltip>
+    ),
+  },
+  {
+    title: "Điểm",
+    dataIndex: "score",
+    key: "score",
+  },
+  {
+    title: "Ảnh bìa",
+    dataIndex: "thumbnail",
+    key: "thumbnail",
+    ellipsis: {
+      showTitle: false,
     },
-    {
-      title: 'Ảnh bìa',
-      dataIndex: 'thumbnail',
-      key: 'thumbnail',
-      ellipsis: {
-        showTitle: false,
-      },
-      render: data => (
-        <Tooltip placement="topLeft" title={data}>
-          {data}
-        </Tooltip>
-      ),
+    render: (data) => (
+      <Tooltip placement="topLeft" title={data}>
+        {data}
+      </Tooltip>
+    ),
+  },
+  {
+    title: "Tạo vào ngày",
+    dataIndex: "createdAt",
+    key: "createdAt",
+    ellipsis: {
+      showTitle: false,
     },
-    {
-      title: 'Tạo vào ngày',
-      dataIndex: 'createdAt',
-      key: 'createdAt',
-      ellipsis: {
-        showTitle: false,
-      },
-      render: data => (
-        <Tooltip placement="topLeft" title={data}>
-          {data}
-        </Tooltip>
-      ),
+    render: (data) => (
+      <Tooltip placement="topLeft" title={formatDate(data)}>
+        {formatDate(data)}
+      </Tooltip>
+    ),
+  },
+  {
+    title: "Cập nhật vào ngày",
+    dataIndex: "updatedAt",
+    key: "updatedAt",
+    ellipsis: {
+      showTitle: false,
     },
-    {
-      title: 'Cập nhật vào ngày',
-      dataIndex: 'updatedAt',
-      key: 'updatedAt',
-      ellipsis: {
-        showTitle: false,
-      },
-      render: data => (
-        <Tooltip placement="topLeft" title={data}>
-          {data}
-        </Tooltip>
-      ),
+    render: (data) => (
+      <Tooltip placement="topLeft" title={formatDate(data)}>
+        {formatDate(data)}
+      </Tooltip>
+    ),
+  },
+  {
+    title: "Action",
+    key: "action",
+    width: "10%",
+    render: (_, record) => (
+      <Space size="middle">
+        <div
+          className="table-action"
+          onClick={() => handleClick("hideArticle", record.id)}
+        >
+          Xoá bài viết
+        </div>
+      </Space>
+    ),
+  },
+];
+export const columnsArticleReport = (handleClick) => [
+  {
+    title: "Tiêu đề",
+    dataIndex: "article",
+    key: "article",
+    width: "10%",
+    ellipsis: {
+      showTitle: false,
     },
-    {
-      title: 'Action',
-      key: 'action',
-      width: '10%',
-      render: (_, record) => (
-        <Space size="middle">
-          <div className='table-action' onClick={() => handleClick("hideArticle", record.id)}>Ẩn bài viết</div>
-        </Space>
-      ),
+    render: (data) => <div>{data.title}</div>,
+  },
+  {
+    title: "Mô tả",
+    dataIndex: "article",
+    key: "article",
+    ellipsis: {
+      showTitle: false,
     },
-  ];
-  export const columnsArticleReport = (handleClick) => [
-    {
-      title: 'Tiêu đề',
-      dataIndex: 'articleInfo',
-      key: 'articleInfo',
-      width: '10%',
-      render: data => (
-        <div>{data.title}</div>
-      ),
+    render: (data) => (
+      <Tooltip placement="topLeft" title={data.description}>
+        {data.description}
+      </Tooltip>
+    ),
+  },
+  {
+    title: "Điểm",
+    dataIndex: "article",
+    key: "article",
+    width: "10%",
+    render: (data) => (
+      <Tooltip placement="topLeft" title={data.score}>
+        {data.score}
+      </Tooltip>
+    ),
+  },
+  {
+    title: "Ảnh bìa",
+    dataIndex: "article",
+    key: "article",
+    width: "10%",
+    ellipsis: {
+      showTitle: false,
     },
-    {
-      title: 'Mô tả',
-      dataIndex: 'articleInfo',
-      key: 'articleInfo',
-      ellipsis: {
-        showTitle: false,
-      },
-      render: data => (
-        <Tooltip placement="topLeft" title={data}>
-          {data.description}
-        </Tooltip>
-      ),
+    render: (data) => (
+      <Tooltip placement="topLeft" title={data.thumbnail}>
+        {data.thumbnail}
+      </Tooltip>
+    ),
+  },
+  {
+    title: "Tạo vào ngày",
+    dataIndex: "article",
+    key: "article",
+    width: "10%",
+    ellipsis: {
+      showTitle: false,
     },
-    {
-      title: 'Điểm',
-      dataIndex: 'articleInfo',
-      key: 'articleInfo',
-      width: '10%',
-      render: data => (
-        <Tooltip placement="topLeft" title={data}>
-          {data.score}
-        </Tooltip>
-      ),
+    render: (data) => (
+      <Tooltip placement="topLeft" title={data.createdAt}>
+        {data.createdAt}
+      </Tooltip>
+    ),
+  },
+  {
+    title: "Cập nhật vào ngày",
+    dataIndex: "article",
+    key: "article",
+    width: "10%",
+    ellipsis: {
+      showTitle: false,
     },
-    {
-      title: 'Ảnh bìa',
-      dataIndex: 'articleInfo',
-      key: 'articleInfo',
-      width: '10%',
-      ellipsis: {
-        showTitle: false,
-      },
-      render: data => (
-        <Tooltip placement="topLeft" title={data}>
-          {data.thumbnail}
-        </Tooltip>
-      ),
+    render: (data) => (
+      <Tooltip placement="topLeft" title={formatDate(data.updatedAt)}>
+        {formatDate(data.updatedAt)}
+      </Tooltip>
+    ),
+  },
+  {
+    title: "Loại báo cáo",
+    dataIndex: "type",
+    key: "type",
+    width: "10%",
+    ellipsis: {
+      showTitle: false,
     },
-    {
-      title: 'Tạo vào ngày',
-      dataIndex: 'createdAt',
-      key: 'createdAt',
-      width: '10%',
-      ellipsis: {
-        showTitle: false,
-      },
-      render: data => (
-        <Tooltip placement="topLeft" title={data}>
-          {data}
-        </Tooltip>
-      ),
+    render: (data) => (
+      <Tooltip placement="topLeft" title={renderReport(data)}>
+        {renderReport(data)}
+      </Tooltip>
+    ),
+  },
+  {
+    title: "Mô tả báo cáo",
+    dataIndex: "description",
+    key: "description",
+    width: "10%",
+    ellipsis: {
+      showTitle: false,
     },
-    {
-      title: 'Cập nhật vào ngày',
-      dataIndex: 'updatedAt',
-      key: 'updatedAt',
-      width: '10%',
-      ellipsis: {
-        showTitle: false,
-      },
-      render: data => (
-        <Tooltip placement="topLeft" title={data}>
-          {data}
-        </Tooltip>
-      ),
-    },
-    {
-        title: 'Loại báo cáo',
-        dataIndex: 'type',
-        key: 'type',
-        width: '10%',
-      },
-      {
-        title: 'Mô tả báo cáo',
-        dataIndex: 'description',
-        key: 'description',
-        width: '10%',
-        ellipsis: {
-          showTitle: false,
-        },
-        render: data => (
-          <Tooltip placement="topLeft" title={data}>
-            {data}
-          </Tooltip>
-        ),
-      },
-    {
-      title: 'Action',
-      key: 'action',
-      width: '10%',
-      render: (_, record) => (
-        <Space size="middle">
-          <div className ="table-action" onClick={() => handleClick("handleReport", record.id)}>Xử lý</div>
-        </Space>
-      ),
-    },
-  ];
+    render: (data) => (
+      <Tooltip placement="topLeft" title={data}>
+        {data}
+      </Tooltip>
+    ),
+  },
+];
 
-  export const columnsTopics= (handleClick) => [
-    {
-      title: 'Tên',
-      dataIndex: 'name',
-      key: 'name',
-      width: '10%',
+export const columnsTopics = (handleClick) => [
+  {
+    title: "Tên",
+    dataIndex: "name",
+    key: "name",
+    width: "10%",
+  },
+  {
+    title: "Người tạo",
+    dataIndex: "adminId",
+    key: "adminId",
+    width: "10%",
+  },
+  {
+    title: "Tạo vào ngày",
+    dataIndex: "createdAt",
+    key: "createdAt",
+    width: "10%",
+    ellipsis: {
+      showTitle: false,
     },
-    {
-      title: 'Người tạo',
-      dataIndex: 'adminId',
-      key: 'adminId',
-      width: '10%',
+    render: (data) => (
+      <Tooltip placement="topLeft" title={formatDate(data)}>
+        {formatDate(data)}
+      </Tooltip>
+    ),
+  },
+  {
+    title: "Cập nhật vào ngày",
+    dataIndex: "updatedAt",
+    key: "updatedAt",
+    width: "10%",
+    ellipsis: {
+      showTitle: false,
     },
-    {
-      title: 'Tạo vào ngày',
-      dataIndex: 'createdAt',
-      key: 'createdAt',
-      width: '10%',
-      ellipsis: {
-        showTitle: false,
-      },
-      render: data => (
-        <Tooltip placement="topLeft" title={data}>
-          {data}
-        </Tooltip>
-      ),
-    },
-    {
-      title: 'Cập nhật vào ngày',
-      dataIndex: 'updatedAt',
-      key: 'updatedAt',
-      width: '10%',
-      ellipsis: {
-        showTitle: false,
-      },
-      render: data => (
-        <Tooltip placement="topLeft" title={data}>
-          {data}
-        </Tooltip>
-      ),
-    },
-    {
-      title: 'Action',
-      key: 'action',
-      width: '10%',
-      render: (_, record) => (
-        <Space size="middle" >
-          <div className ="table-action" onClick={() => handleClick("deleteTopic", record.id)}>Delete</div>
-        </Space>
-      ),
-    },
-  ];
+    render: (data) => (
+      <Tooltip placement="topLeft" title={formatDate(data)}>
+        {formatDate(data)}
+      </Tooltip>
+    ),
+  },
+  {
+    title: "Action",
+    key: "action",
+    width: "10%",
+    render: (_, record) => (
+      <Space size="middle">
+        <div
+          className="table-action"
+          onClick={() => handleClick("deleteTopic", record.id)}
+        >
+          Delete
+        </div>
+      </Space>
+    ),
+  },
+];
 
-  export const columnsUser = (handleClick) => [
+export const columnsUser = (handleClick) => [
+  {
+    title: "Tên đăng nhập",
+    dataIndex: "username",
+    key: "username",
+    width: "10%",
+    ellipsis: {
+      showTitle: false,
+    },
+  },
+  {
+    title: "Email",
+    dataIndex: "email",
+    key: "email",
+    width: "20%",
+    ellipsis: {
+      showTitle: false,
+    },
+    render: (data) => (
+      <Tooltip placement="topLeft" title={data}>
+        {data}
+      </Tooltip>
+    ),
+  },
+  {
+    title: "Biệt danh",
+    dataIndex: "nickname",
+    key: "nickname",
+    width: "10%",
+    ellipsis: {
+      showTitle: false,
+    },
+    render: (data) => (
+      <Tooltip placement="topLeft" title={data}>
+        {data}
+      </Tooltip>
+    ),
+  },
+  {
+    title: "Mô tả",
+    dataIndex: "description",
+    key: "description",
+    width: "10%",
+    ellipsis: {
+      showTitle: false,
+    },
+    render: (data) => (
+      <Tooltip placement="topLeft" title={data}>
+        {data}
+      </Tooltip>
+    ),
+  },
+  {
+    title: "Số điện thoại",
+    dataIndex: "phone",
+    key: "phone",
+    width: "10%",
+  },
+  {
+    title: "Cập nhật vào ngày",
+    dataIndex: "updatedAt",
+    key: "updatedAt",
+    width: "10%",
+    ellipsis: {
+      showTitle: false,
+    },
+    render: (data) => (
+      <Tooltip placement="topLeft" title={formatDate(data)}>
+        {formatDate(data)}
+      </Tooltip>
+    ),
+  },
+  {
+    title: "Action",
+    key: "action",
+    width: "10%",
+    render: (_, record) => (
+      <Space size="middle">
+        {record.status === "ban" ? (
+          <div
+            className="table-action"
+            onClick={() => handleClick("unBanUser", record.id)}
+          >
+            Bỏ cấm người dùng
+          </div>
+        ) : (
+          <div
+            className="table-action"
+            onClick={() => handleClick("banUser", record.id)}
+          >
+            Cấm người dùng
+          </div>
+        )}
+      </Space>
+    ),
+  },
+];
+
+
+export const columnsUserReport = (handleClick) => [
+  {
+    title: "Tên",
+    dataIndex: "beingReport",
+    key: "beingReport",
+    width: "10%",
+    ellipsis: {
+      showTitle: false,
+    },
+    render: (data) => (
+      <Tooltip placement="topLeft" title={data.nickname}>
+        {data.nickname}
+      </Tooltip>
+    ),
+  },
+  {
+    title: "Email",
+    dataIndex: "beingReport",
+    key: "beingReport",
+    width: "20%",
+    ellipsis: {
+      showTitle: false,
+    },
+    render: (data) => (
+      <Tooltip placement="topLeft" title={data.email}>
+        {data.email}
+      </Tooltip>
+    ),
+  },
+  {
+    title: "Mô tả báo cáo",
+    dataIndex: "description",
+    key: "description",
+    width: "10%",
+    ellipsis: {
+      showTitle: false,
+    },
+    render: (data) => (
+      <Tooltip placement="topLeft" title={data}>
+        {data}
+      </Tooltip>
+    ),
+  },
+  {
+    title: "Loại báo cáo",
+    dataIndex: "type",
+    key: "type",
+    width: "10%",
+    ellipsis: {
+      showTitle: false,
+    },
+    render: (data) => (
+      <Tooltip placement="topLeft" title={renderReport(data)}>
+        {renderReport(data)}
+      </Tooltip>
+    ),
+  },
+  {
+    title: "Cập nhật vào ngày",
+    dataIndex: "updatedAt",
+    key: "updatedAt",
+    width: "10%",
+    ellipsis: {
+      showTitle: false,
+    },
+    render: (data) => (
+      <Tooltip placement="topLeft" title={formatDate(data)}>
+        {formatDate(data)}
+      </Tooltip>
+    ),
+  },
+  {
+    title: "Action",
+    key: "action",
+    width: "10%",
+    render: (_, record) => (
+      <Space size="middle">
+        {record.status === "ban" ? (
+          <div
+            className="table-action"
+            onClick={() => handleClick("unBanUser", record.beingReport.id)}
+          >
+            Bỏ cấm người dùng
+          </div>
+        ) : (
+          <div
+            className="table-action"
+            onClick={() => handleClick("banUser", record.beingReport.id)}
+          >
+            Cấm người dùng
+          </div>
+        )}
+      </Space>
+    ),
+  },
+];
+
+
+export const renderReport = (type) => {
+   return [
     {
-      title: 'Tên đăng nhập',
-      dataIndex: 'username',
-      key: 'username',
-      width: '15%',
+        value: "Nội dung kích dục",
+        type: "aphrodisiac",
     },
     {
-      title: 'Email',
-      dataIndex: 'email',
-      key: 'email',
-      ellipsis: {
-        showTitle: false,
-      },
-      render: data => (
-        <Tooltip placement="topLeft" title={data}>
-          {data}
-        </Tooltip>
-      ),
+        value: "Bán hàng trái phép",
+        type: "illegal sales"
     },
     {
-      title: 'Biệt danh',
-      dataIndex: 'nickname',
-      key: 'nickname',
-      width: '10%',
+        value: "Spam",
+        type: "spam"
+    },
+
+    {
+        value: "Bạo lực",
+        type: "Violent"
     },
     {
-      title: 'Mô tả',
-      dataIndex: 'description',
-      key: 'description',
-      width: '10%', 
-      ellipsis: {
-        showTitle: false,
-      },
-      render: data => (
-        <Tooltip placement="topLeft" title={data}>
-          {data}
-        </Tooltip>
-      ),
+        value: "Quấy rối",
+        type: "Trouble"
     },
     {
-      title: 'Số điện thoại',
-      dataIndex: 'phone',
-      key: 'phone',
-      width: '10%',
+        value: "Tự tử hoặc tự gây thương tích",
+        type: "Suicide"
     },
     {
-      title: 'Cập nhật vào ngày',
-      dataIndex: 'updatedAt',
-      key: 'updatedAt',
-      width: '10%',
-      ellipsis: {
-        showTitle: false,
-      },
-      render: data => (
-        <Tooltip placement="topLeft" title={data}>
-          {data}
-        </Tooltip>
-      ),
+        value: "Thông tin sai sự thật",
+        type: "False"
     },
     {
-      title: 'Action',
-      key: 'action',
-      width: '10%',
-      render: (_, record) => (
-        <Space size="middle">
-          <div className='table-action' onClick={() => handleClick("banUser", record.id)}>Cấm người dùng</div>
-        </Space>
-      ),
+        value: "Ngôn từ gây thù ghét",
+        type: "Hate"
     },
-  ];
+    {
+        value: "Khủng bố",
+        type: "Terrorism"
+    },
+    {
+        value: "Vấn đề khác",
+        type: "Other"
+    },
+  ].find((value) => value.type === type).value
+}

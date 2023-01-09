@@ -7,23 +7,28 @@ class PropertiesService {
       password: "12345678",
     });
   }
-  getArticle(token) {
-    return http.get("/admin/list-articles", {
+  getArticle(token, page) {
+    return http.get(`/admin/list-articles?page=${page}`, {
       headers: { Authorization: "Bearer " + token },
     });
   }
-  getUser(token) {
-    return http.get("/admin/list-users", {
+  getUser(token, page) {
+    return http.get(`/admin/list-users?page=${page}`, {
       headers: { Authorization: "Bearer " + token },
     });
   }
-  getListReportUser(token) {
-    return http.get("/admin/list-reports-user", {
+  getBanUser(token, page) {
+    return http.get(`/admin/list-users-ban?page=${page}`, {
       headers: { Authorization: "Bearer " + token },
     });
   }
-  getListReportArticle(token) {
-    return http.get("/admin/list-reports-article", {
+  getListReportUser(token, page) {
+    return http.get(`/admin/list-reports-user?page=${page}`, {
+      headers: { Authorization: "Bearer " + token },
+    });
+  }
+  getListReportArticle(token, page) {
+    return http.get(`/admin/list-reports-article?page=${page}`, {
       headers: { Authorization: "Bearer " + token },
     });
   }
@@ -77,8 +82,33 @@ class PropertiesService {
     }
     return formDataHttp.post("/badwords/re-train", fd);
   }
-  disabledClass(data){
+  disabledClass(data) {
     return approve.post("/badwords/change-class-status", JSON.stringify(data));
+  }
+  deleteArticle(data, token) {
+    return http.post("/admin/delete-article", JSON.stringify(data), {
+      headers: { Authorization: "Bearer " + token },
+    });
+  }
+  updateTopic(data, token) {
+    return http.post("/admin/update-topic", JSON.stringify(data), {
+      headers: { Authorization: "Bearer " + token },
+    });
+  }
+  getListFeedback(token) {
+    return http.get("/admin/list-feedback", {
+      headers: { Authorization: "Bearer " + token },
+    });
+  }
+  getPermissionScore(token) {
+    return http.get("/admin/permission-score", {
+      headers: { Authorization: "Bearer " + token },
+    });
+  }
+  updatePermissionScore(data, token) {
+    return http.post("/admin/update-permission-score", JSON.stringify(data), {
+      headers: { Authorization: "Bearer " + token },
+    });
   }
 }
 export default new PropertiesService();

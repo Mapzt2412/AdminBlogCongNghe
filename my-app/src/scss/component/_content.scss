@@ -21,3 +21,17 @@
     display: flex;
     justify-content: space-between;
 }
+.content{
+    span{
+        color: $color--active;
+        cursor: pointer;
+        margin-left: 4px;
+    }
+}
+.content-title{
+    font-size: 20px;
+    margin: 10px 0px;
+}
+.class-button{
+    cursor: pointer;
+}

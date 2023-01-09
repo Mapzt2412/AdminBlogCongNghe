@@ -3,10 +3,13 @@ import PropertiesService from "../../services/properties.service";
 import ManageRuleService from "../../services/manageRule.service";
 import { useEffect, useCallback, useState } from "react";
 import FileDownload from "js-file-download";
+import { getToken } from "../../libs/common";
 
 const ManageArticles = () => {
   const [classList, setClassList] = useState();
   const [imageClassList, setImageClassList] = useState();
+  const [permissionScore, setPermissionScore] = useState();
+
   const [statusCopyleak, setStatusCopyleak] = useState(false);
   const [loadding, setLoadding] = useState(false);
 
@@ -89,8 +92,18 @@ const ManageArticles = () => {
     getStatusCopyleak();
   }, [getClasslist, getImageClassList, getStatusCopyleak]);
 
-  useEffect(() => {}, []);
+  useEffect(() => {
+    PropertiesService.getPermissionScore(getToken()).then((data) => {
+      setPermissionScore(data.data.data);
+    }, []);
+  }, []);
 
+  useEffect(() => {
+    PropertiesService.updatePermissionScore(
+      { permissionScore: permissionScore },
+      getToken()
+    );
+  }, [permissionScore]);
   return (
     <Inner
       classList={classList}
@@ -103,6 +116,8 @@ const ManageArticles = () => {
       statusCopyleak={statusCopyleak}
       setStatusCopyleak={setStatusCopyleak}
       loadding={loadding}
+      permissionScore={permissionScore}
+      setPermissionScore={setPermissionScore}
     />
   );
 };

@@ -3,10 +3,10 @@ import Input from "antd/lib/input/Input";
 import TextArea from "antd/lib/input/TextArea";
 import { useState } from "react";
 import ModalRetrainRule from "../../components/CommonModal/ModalRetrainRule";
-import { Dropdown, Menu, Switch, Spin } from "antd";
+import { Dropdown, Menu, Switch, Spin, Button } from "antd";
 import IconAction from "../../assets/icon/IconAction";
 import io from "socket.io-client";
-
+import ModalUpdateTopic from "../../components/CommonModal/ModalUpdateTopic";
 const socket = io(process.env.REACT_APP_APPROVE_API);
 
 const Inner = ({
@@ -20,6 +20,8 @@ const Inner = ({
   changeStatusImageClass,
   setStatusCopyleak,
   loadding,
+  permissionScore,
+  setPermissionScore,
 }) => {
   const [newData, setNewData] = useState({
     className: "",
@@ -27,7 +29,11 @@ const Inner = ({
   });
 
   const [isModalVisible, setIsModalVisible] = useState(false);
+  const [isModalVisiblePermission, setIsModalVisiblePermission] =
+    useState(false);
   const [classRetrain, setClassRetain] = useState("");
+  const [loaddingPage, setLoaddingPage] = useState(false);
+
   const menu = (value) => (
     <Menu>
       <Menu.Item onClick={() => deleteClass(value.id)}>Xoá</Menu.Item>
@@ -65,9 +71,6 @@ const Inner = ({
     setIsModalVisible(true);
     setClassRetain(value);
   };
-  const handleDisabledClass = (value) => {
-    disabledClass({ classId: value.id, status: !value.banned });
-  };
   const openInNewTab = (url) => {
     window.open(url, "_blank", "noopener,noreferrer");
   };
@@ -77,7 +80,13 @@ const Inner = ({
 
   useEffect(() => {
     socket.on("trainingComplete", (data) => {
-      console.log(data);
+      if (data === "start training...") {
+        setLoaddingPage(true);
+        return;
+      }
+      if (data === "training complete") {
+        setLoaddingPage(false);
+      }
     });
     return () => {
       socket.off("trainingComplete");
@@ -90,8 +99,14 @@ const Inner = ({
         <div className="spin-container">
           <Spin size="large" />
         </div>
+      ) : loaddingPage ? (
+        <div className="spin-container">
+          <div>Đang cập nhật hệ thống</div>
+          <Spin size="large" />
+        </div>
       ) : (
         <div className="container">
+          <div className="content-title">Kiểm duyệt hình ảnh</div>
           <div className="content-item">
             <div className="title">Danh sách class phân loại hình ảnh:</div>
             <ul>
@@ -126,9 +141,7 @@ const Inner = ({
               Link model phân loại hình ảnh
             </div>
           </div>
-          <div className="content-item">
-            <div className="title">Danh sách class :</div>
-          </div>
+          <div className="content-title">Kiểm duyệt nội dung</div>
           <div className="content-item">
             <div className="title">Danh sách các class trên hệ thống:</div>
             <ul>
@@ -165,8 +178,9 @@ const Inner = ({
               onChange={onChange}
               value={newData.data}
             />
-            <button onClick={onSubmit}>Lưu</button>
+            <Button onClick={onSubmit}>Lưu</Button>
           </div>
+          <div className="content-title">Kiểm duyệt nội dung bản quyền</div>
           <div className="content-item">
             <div className="title">
               Kiểm tra bản quyền:{" "}
@@ -177,7 +191,20 @@ const Inner = ({
                 />
               }
             </div>
+            <div className="content">
+              Phần trăm mức độ sao chép cho phép: {permissionScore}%
+              {
+                <span onClick={() => setIsModalVisiblePermission(true)}>
+                  (Chỉnh sửa)
+                </span>
+              }
+            </div>
           </div>
+          <ModalUpdateTopic
+            isModalVisible={isModalVisiblePermission}
+            setIsModalVisible={setIsModalVisiblePermission}
+            setPermissionScore={setPermissionScore}
+          />
         </div>
       )}
     </>

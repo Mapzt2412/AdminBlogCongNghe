@@ -1,54 +1,77 @@
-import { Input, Space, Table, Tag } from "antd";
+import { Input, Table } from "antd";
 import React, { useCallback } from "react";
 import { useEffect, useState } from "react";
-import { Image } from "antd";
+import useHomeContext from "./Context";
 import {
   columnsArticle,
   columnsUser,
   columnsArticleReport,
   columnsTopics,
+  columnsUserReport,
 } from "../../libs/commonConstant";
-import { Spin, Pagination  } from "antd";
+import { Spin, Pagination } from "antd";
 import propertiesService from "../../services/properties.service";
-import { getToken } from './../../libs/common';
-import ManageArticles from '../../views/ManageArticles/index';
+import { getToken } from "./../../libs/common";
+import ManageArticles from "../../views/ManageArticles/index";
+import ModalUpdateTopic from "../CommonModal/ModalUpdateTopic";
 
 const Content = ({ data, page }) => {
   const [loading, setLoading] = useState(false);
   const [dataTable, setDataTable] = useState(data);
   const [columns, setColumns] = useState(columnsArticle);
   const [topic, setTopic] = useState("");
-  const heightTable = window.innerHeight - 108 - 55;
-  const widthTable = window.innerWidth - 276;
+  const [isModalVisible, setIsModalVisible] = useState(false);
+  const { totalPages, pageNum, handleChangePage, handleReload } =
+    useHomeContext();
+
+  const [id, setId] = useState("");
   const handleChangeTopic = (e) => {
     setTopic(e.target.value);
   };
   const handleClick = useCallback((type, data) => {
-    if(type === "deleteTopic"){
-      propertiesService.deleteTopic({ topicId: data}, getToken()).then((data) => setDataTable(pre => pre?.filter(value => value.id !== data)))
-    }else if(type === "handleReport"){
-      propertiesService.handleReportArticle({ reportId  : data}, getToken()).then((data) => console.log(data))
-    }else if(type === "banUser"){
-      propertiesService.banUser({userId: data , status:""}, getToken()).then((data) => alert("Cấm người dùng thành công"))
-    }else if(type === "hideArticle"){
-      propertiesService.hideArticle({articleId : data , status:""}, getToken()).then((data) => alert("Ẩn bài viết thành công"))
+    if (type === "deleteTopic") {
+      setId(data);
+      setIsModalVisible(true);
+    } else if (type === "handleReport") {
+      propertiesService
+        .handleReportArticle({ reportId: data }, getToken())
+        .then((data) => console.log(data));
+    } else if (type === "banUser") {
+      propertiesService
+        .banUser({ userId: data, status: "ban" }, getToken())
+        .then((data) => {
+          alert("Cấm người dùng thành công");
+          handleReload();
+        });
+    } else if (type === "unBanUser") {
+      propertiesService
+        .banUser({ userId: data, status: "unban" }, getToken())
+        .then((data) => {
+          alert("Bỏ cấm người dùng thành công");
+          handleReload();
+        });
+    } else if (type === "hideArticle") {
+      propertiesService
+        .deleteArticle({ articleId: data }, getToken())
+        .then((data) => alert("Xoá bài viết thành công"));
     }
-  },[])
+  }, [handleReload]);
+
   useEffect(() => {
     setLoading(true);
     if (page === "1") {
       setColumns(columnsArticle(handleClick));
-    } else if (page === "6" || page === "4" || page === "5") {
+    } else if (page === "4" || page === "5") {
       setColumns(columnsUser(handleClick));
     } else if (page === "3") {
       setColumns(columnsArticleReport(handleClick));
     } else if (page === "sub3") {
       setColumns(columnsTopics(handleClick));
+    } else if (page === "6") {
+      setColumns(columnsUserReport(handleClick));
     }
   }, [handleClick, page]);
   useEffect(() => {
-    console.log("change");
-    console.log(data)
     if (data) {
       setDataTable(data);
       setLoading(false);
@@ -56,15 +79,17 @@ const Content = ({ data, page }) => {
   }, [data]);
 
   useEffect(() => {
-    if( page === 'sub6'){
+    if (page === "sub6") {
       setLoading(false);
     }
-  },[page])
+  }, [page]);
   const handleSubmit = (e) => {
-    if(e.keyCode === 13) {
-      propertiesService.createTopic({topicName: topic} , getToken()).then((data) => setDataTable(pre => [...pre, data.data.data]))
+    if (e.keyCode === 13) {
+      propertiesService
+        .createTopic({ topicName: topic }, getToken())
+        .then((data) => setDataTable((pre) => [...pre, data.data.data]));
     }
-  }
+  };
   return (
     <div className="content-container">
       {page === "sub3" && (
@@ -78,19 +103,41 @@ const Content = ({ data, page }) => {
         </div>
       )}
       {loading ? (
-       <div className="spin-container">
-        <Spin  size="large"/>
-       </div>
-      ) : (
-        page === 'sub6' ? <>
-            <ManageArticles/>
-        </> : <>
-        <Table columns={columns} dataSource={dataTable} columnWidth={100} pagination={false}/>
-        <div className="pagination-table">
-          <Pagination defaultCurrent={1} total={50} />
+        <div className="spin-container">
+          <Spin size="large" />
         </div>
+      ) : page === "sub6" ? (
+        <>
+          <ManageArticles />
+        </>
+      ) : (
+        <>
+          <Table
+            columns={columns}
+            dataSource={dataTable}
+            columnWidth={100}
+            pagination={false}
+          />
+          {totalPages && (
+            <div className="pagination-table">
+              <Pagination
+                current={pageNum}
+                onChange={(e) => {
+                  handleChangePage(e);
+                  setLoading(true);
+                }}
+                pageSize={10}
+                total={totalPages * 10}
+              />
+            </div>
+          )}
         </>
       )}
+      <ModalUpdateTopic
+        isModalVisible={isModalVisible}
+        setIsModalVisible={setIsModalVisible}
+        id={id}
+      />
     </div>
   );
 };

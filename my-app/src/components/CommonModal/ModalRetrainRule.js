@@ -1,6 +1,5 @@
 import { memo, useState } from "react";
 import { Modal } from "antd";
-import UploadFile from "../../components/UploadFile/UploadFile";
 import propertiesService from "../../services/properties.service";
 
 const ModalRetrainRule = ({ isModalVisible, setIsModalVisible, classRetrain }) => {
@@ -19,13 +18,15 @@ const ModalRetrainRule = ({ isModalVisible, setIsModalVisible, classRetrain }) =
             className: classRetrain,
             upload: file[0],
         })
+        setIsModalVisible(false)
     };
     const onCancel = () => {
         setIsModalVisible(false)
     };
     return (
-        <Modal open={isModalVisible} onOk={onOk} onCancel={onCancel}> 
-            <div>{classRetrain}</div>
+        <Modal title={"Cập nhật dữ liệu"} open={isModalVisible} onOk={onOk} onCancel={onCancel}> 
+            <div>Tên tập dữ liệu: {classRetrain}</div>
+            <div>Chọn tập dữ liệu mới cần thay đổi</div>
             <input type="file" onChange={handleFileSelected}/>
         </Modal>
     )
